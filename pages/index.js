@@ -1,65 +1,64 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import {useRouter} from "next/router";
+import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
+import {Button, ButtonBase, Grid, Paper, TextField} from "@material-ui/core";
+import {useContext, useState} from "react";
+import SAMLContext from "../src/contexts/SAMLContext";
 
-export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+export default function Index(props) {
+    const router = useRouter();
+    const [title, setTitle] = useState("");
+    const [body, setBody] = useState("");
+    const {accountID} = useContext(SAMLContext);
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+    if (!accountID) return (
+        <Grid container alignItems={"center"} direction={"column"}>
+            <Grid item>
+                <h2>Sign in to ask a question!</h2>
+            </Grid>
+        </Grid>
+    )
+    return (
+        <Container maxWidth="md">
+            <Box my={2}>
+                <main>
+                    <Paper>
+                        <Box p={2}>
+                            <Box pb={2}>
+                            <TextField
+                                fullWidth
+                                label="Title"
+                                inputProps={{maxLength: 50}}
+                                value={title}
+                                onChange={event => setTitle(event.target.value)}
+                                error={title.length >= 50}
+                                helperText={title.length >= 50 ? "Title may be at most than 50 characters." : false}
+                                variant={"outlined"}
+                            />
+                            </Box>
+                            <Box pb={2}>
+                            <TextField
+                                fullWidth
+                                multiline
+                                label="Body"
+                                value={body}
+                                onChange={event => setBody(event.target.value)}
+                                variant={"outlined"}
+                            />
+                            </Box>
+                            <Button onClick={async () => {
+                                const requestOptions = {
+                                    method: 'POST',
+                                    headers: {'Content-Type': 'application/json'},
+                                    body: JSON.stringify({content: body, author: accountID, title: title})
+                                };
+                                const res = await (await fetch(`/api/v1/question/post`, requestOptions)).json();
+                                router.push(`/question/${res.id}`);
+                            }} variant={"outlined"}>Ask</Button>
+                        </Box>
+                    </Paper>
+                </main>
+            </Box>
+        </Container>
+    )
 }

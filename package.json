@@ -1,15 +1,28 @@
 {
-  "name": "independent-study",
-  "version": "0.1.0",
+  "name": "nextjs",
+  "version": "4.0.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
   "dependencies": {
-    "next": "10.1.2",
-    "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "@azure/msal-browser": "^2.13.1",
+    "@material-ui/core": "latest",
+    "@material-ui/icons": "^4.11.2",
+    "@microsoft/microsoft-graph-client": "^2.2.1",
+    "material-ui-search-bar": "^1.0.0",
+    "next": "latest",
+    "prop-types": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-microsoft-login": "^1.12.1",
+    "serverless-mysql": "^1.5.4"
+  },
+  "scripts": {
+    "dev": "next",
+    "reset_tables": "node scripts/setup_tables.js",
+    "build": "next build",
+    "start": "next start",
+    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
   }
 }
