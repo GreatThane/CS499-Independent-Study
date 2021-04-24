@@ -4,13 +4,14 @@ import dynamic from "next/dynamic";
 import {useContext, useEffect, useState} from "react";
 import SPAContext from "../contexts/SPAContext";
 import SAMLContext from "../contexts/SAMLContext";
+import Author from "../icons/Author";
 
 const MicrosoftLogin = dynamic(() => import("react-microsoft-login"), {ssr: false});
 const graph = require('@microsoft/microsoft-graph-client');
 
 export default function LoginButton(props) {
     const spaClientID = useContext(SPAContext);
-    const {setClient, setAccountID} = useContext(SAMLContext);
+    const {setClient, setAccountID, accountID} = useContext(SAMLContext);
 
     const [buttonTheme, setButtonTheme] = useState("light");
 
@@ -31,6 +32,8 @@ export default function LoginButton(props) {
             window?.removeEventListener('resize', handleResize)
         }
     }, [buttonTheme]);
+
+    if (accountID) return <Author accountId={accountID}/>
 
     return (
         <MicrosoftLogin

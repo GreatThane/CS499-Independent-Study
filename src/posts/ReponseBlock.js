@@ -22,7 +22,9 @@ export default function ResponseBlock(props) {
                         styles={{paddingBottom: 12}}
                     />
                 </Box>
-                <Button onClick={async () => {
+                <Button
+                    variant={"outlined"}
+                    onClick={async () => {
                     const requestOptions = {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},

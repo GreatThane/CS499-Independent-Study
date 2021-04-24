@@ -26,7 +26,9 @@ export default function CommentBlock(props) {
                 />
                 <Grid container alignItems={"center"} spacing={1}>
                     <Grid item>
-                        <Button onClick={async () => {
+                        <Button
+                            variant={"outlined"}
+                            onClick={async () => {
                             const requestOptions = {
                                 method: 'POST',
                                 headers: {'Content-Type': 'application/json'},

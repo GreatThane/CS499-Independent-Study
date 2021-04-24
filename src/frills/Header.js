@@ -1,8 +1,10 @@
-import {AppBar, Grid, Hidden, Toolbar} from "@material-ui/core";
+import {AppBar, ButtonBase, Grid, Hidden, Toolbar} from "@material-ui/core";
 import {useState} from "react";
 import SearchBar from "material-ui-search-bar";
 import LoginButton from "./LoginButton";
 import {useRouter} from "next/router";
+import HomeIcon from '@material-ui/icons/Home';
+import Box from "@material-ui/core/Box";
 
 
 export default function Header() {
@@ -12,11 +14,21 @@ export default function Header() {
         <AppBar position="static">
             <Toolbar>
                 <Grid container justify="space-between" alignItems="center" wrap="nowrap">
-                    <Hidden smDown>
-                        <Grid item>
-                            <h3>Stack Underflow</h3>
+
+                    <ButtonBase onClick={() => router.push('/')}>
+                        <Grid item container alignItems={"center"}>
+                            <Grid item>
+                                <Box pr={1}>
+                                <HomeIcon fontSize={"large"}/>
+                                </Box>
+                            </Grid>
+                            <Grid item>
+                                <Hidden smDown>
+                                    <h3>Stack Underflow</h3>
+                                </Hidden>
+                            </Grid>
                         </Grid>
-                    </Hidden>
+                    </ButtonBase>
                     <Grid item sm md={6}>
                         <SearchBar
                             value={search}

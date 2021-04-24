@@ -21,8 +21,8 @@ export default function Search(props) {
                                                     <h2>{result.votes}</h2>
                                                 </Grid>
                                                 <Grid item>
-                                                    <h3 style={{margin: 0}}>{result.title}</h3>
-                                                    <p style={{margin: 0}}>{result.content.substring(0, 50)}</p>
+                                                    <h3 style={{margin: 0, textAlign: "left"}}>{result.title}</h3>
+                                                    <p style={{margin: 0, textAlign: "left"}}>{result.content.substring(0, 50)}</p>
                                                 </Grid>
                                             </Grid>
                                         </Box>
